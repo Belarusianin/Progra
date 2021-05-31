@@ -1,0 +1,450 @@
+        -:    0:Source:func.c
+        -:    0:Graph:test.gcno
+        -:    0:Data:-
+        -:    0:Runs:0
+        -:    0:Programs:0
+        -:    1:#include "func.h"
+        -:    2:
+    #####:    3:void showMenu(void)
+        -:    4:{
+    #####:    5:	printf("\n\n-----------------------------------------MENU:------------------------------------------");
+    #####:    6:	printf("\n1. Show first semester rating");
+    #####:    7:	printf("\n2. Update on the results of the second semester");
+    #####:    8:	printf("\n3. Show second semester rating");
+    #####:    9:	printf("\n4. Show all");
+    #####:   10:	printf("\n5. Show course..");
+    #####:   11:	printf("\n6. Show group..");
+    #####:   12:	printf("\n7. Exit from the program");
+    #####:   13:	printf("\n----------------------------------------------------------------------------------------");
+        -:   14:
+    #####:   15:	chooseOption();
+    #####:   16:}
+        -:   17:
+    #####:   18:int chooseOption(void)
+        -:   19:{
+    #####:   20:	int ans = 0;
+        -:   21:
+    #####:   22:	printf("\nChoose option, please. Enter a number 1-7\nOption #");
+    #####:   23:	while (!scanf("%d", &ans) || ans <= 0 || ans > 7)
+        -:   24:	{
+    #####:   25:		printf("Wrong input! Try again :)\n");
+    #####:   26:		while (getchar() != '\n');
+    #####:   27:		printf("\nChoose option, please. Enter a number 1-7\nOption #");
+        -:   28:	}
+    #####:   29:	while (getchar() != '\n');
+        -:   30:
+    #####:   31:	switch (ans)
+        -:   32:	{
+    #####:   33:	case 1:
+    #####:   34:		showList(1);
+    #####:   35:		break;
+    #####:   36:	case 2:
+    #####:   37:		QuickSortList(list->first, list->last);
+    #####:   38:		update();
+    #####:   39:		system("cls");
+    #####:   40:		printf("\n\nRating was updated!\n\n");
+    #####:   41:		break;
+    #####:   42:	case 3:
+    #####:   43:		showList(2);
+    #####:   44:		break;
+    #####:   45:	case 4:
+    #####:   46:		showList(0);
+    #####:   47:		break;
+    #####:   48:	case 5:
+        -:   49:	{
+    #####:   50:		int course = 0;
+    #####:   51:		printf("\nEnter number of a course \n Course #");
+    #####:   52:		while (!scanf("%d", &course) || course < 0)
+        -:   53:		{
+    #####:   54:			printf("Wrong input! Try again :)\n");
+    #####:   55:			while (getchar() != '\n');
+    #####:   56:			printf("\nEnter number of a course \n Course #");
+        -:   57:		}
+    #####:   58:		while (getchar() != '\n');
+        -:   59:
+    #####:   60:		showByCourse(course);
+    #####:   61:		break;
+        -:   62:	}
+    #####:   63:	case 6:
+        -:   64:	{
+    #####:   65:		int group = 0;
+    #####:   66:		printf("\nEnter number of a group\n Group #");
+    #####:   67:		while (!scanf("%d", &group) || group < 0)
+        -:   68:		{
+    #####:   69:			printf("Wrong input! Try again :)\n");
+    #####:   70:			while (getchar() != '\n');
+    #####:   71:			printf("\nEnter number of a group\n Group #");
+        -:   72:		}
+    #####:   73:		while (getchar() != '\n');
+        -:   74:
+    #####:   75:		showByGroup(group);
+    #####:   76:		break;
+        -:   77:	}
+    #####:   78:	case 7:
+    #####:   79:		save();
+    #####:   80:		printf("\n\nChanges have been saved.\nGood bye!~\n\n");
+    #####:   81:		exit(1);
+    #####:   82:	default:
+    #####:   83:		printf("\nSomething is wrong! /(>,<)/");
+        -:   84:	}
+        -:   85:
+    #####:   86:	return ans;
+        -:   87:}
+        -:   88:
+    #####:   89:void showStudent(Student* student, int sem)
+        -:   90:{
+    #####:   91:	printf("\n%s ", student->surname);
+    #####:   92:	printf("%s ", student->name);
+    #####:   93:	printf("%s", student->lastname);
+        -:   94:
+    #####:   95:	printf("\nCourse: %d", student->course);
+    #####:   96:	printf("\nGroup: %d", student->group);
+        -:   97:
+    #####:   98:	int k = 0;
+    #####:   99:	if (sem == 1 || sem == 0)
+        -:  100:	{
+    #####:  101:		printf("\nFirst semester marks: ");
+    #####:  102:		for (k = 0; k < 4; k++)
+    #####:  103:			printf("%d ", student->marks1[k]);
+        -:  104:
+    #####:  105:		printf("\nRating place in first semester: %d", student->ratingPlace1);
+        -:  106:
+    #####:  107:		printf("\nAverage point in first semester: %.2f", student->average1);
+        -:  108:	}
+    #####:  109:	if (sem == 2 || sem == 0)
+        -:  110:	{
+    #####:  111:		if (updated == 1)
+        -:  112:		{
+    #####:  113:			printf("\nSecond semester marks: ");
+    #####:  114:			for (k = 0; k < 4; k++)
+    #####:  115:				printf("%d ", student->marks2[k]);
+        -:  116:
+    #####:  117:			printf("\nRating place in second semester: %d", student->ratingPlace2);
+        -:  118:
+    #####:  119:			printf("\nRating increase: ");
+    #####:  120:			if (student->ratingDelta > 0)
+    #####:  121:				printf("+");
+    #####:  122:			printf("%d", student->ratingDelta);
+        -:  123:
+    #####:  124:			printf("\nAverage in second semester: %.2f", student->average2);
+        -:  125:
+    #####:  126:			printf("\nAverage point increase: ");
+    #####:  127:			if (student->averageDelta > 0)
+    #####:  128:				printf("+");
+    #####:  129:			printf("%.2f", student->averageDelta);
+        -:  130:		}
+        -:  131:		else
+    #####:  132:			printf("\nTo see more information firstly update rating :)");
+        -:  133:	}
+        -:  134:
+    #####:  135:	printf("\n\n");
+    #####:  136:}
+        -:  137:
+    #####:  138:void showList(int sem)
+        -:  139:{
+    #####:  140:	system("cls");
+        -:  141:
+    #####:  142:	Node* current = list->first;
+        -:  143:
+    #####:  144:	if (list->first == NULL)
+    #####:  145:		printf("The list is empty :/");
+        -:  146:	else
+        -:  147:	{
+    #####:  148:		while (current != NULL)
+        -:  149:		{
+    #####:  150:			showStudent(current->student, sem);
+    #####:  151:			current = current->next;
+        -:  152:		}
+        -:  153:	}
+    #####:  154:}
+        -:  155:
+    #####:  156:void showByCourse(int course)
+        -:  157:{
+    #####:  158:	system("cls");
+        -:  159:
+    #####:  160:	Node* current = list->first;
+        -:  161:
+    #####:  162:	int done = 0;
+        -:  163:
+    #####:  164:	if (list->first == NULL)
+    #####:  165:		printf("The list is empty :/");
+        -:  166:	else
+        -:  167:	{
+    #####:  168:		while (current != NULL)
+        -:  169:		{
+    #####:  170:			if (current->student->course == course)
+        -:  171:			{
+    #####:  172:				showStudent(current->student, 0);
+    #####:  173:				done = 1;
+        -:  174:			}
+    #####:  175:			current = current->next;
+        -:  176:		}
+        -:  177:	}
+        -:  178:
+    #####:  179:	if (done == 0)
+    #####:  180:		printf("\n\nNo matches found :(\n\n");
+    #####:  181:}
+        -:  182:
+    #####:  183:void showByGroup(int group)
+        -:  184:{
+    #####:  185:	system("cls");
+        -:  186:
+    #####:  187:	Node* current = list->first;
+        -:  188:
+    #####:  189:	int done = 0;
+        -:  190:
+    #####:  191:	if (list->first == NULL)
+    #####:  192:		printf("The list is empty :/");
+        -:  193:	else
+        -:  194:	{
+    #####:  195:		while (current != NULL)
+        -:  196:		{
+    #####:  197:			if (current->student->group == group)
+        -:  198:			{
+    #####:  199:				showStudent(current->student, 0);
+    #####:  200:				done = 1;
+        -:  201:			}
+    #####:  202:			current = current->next;
+        -:  203:		}
+        -:  204:	}
+        -:  205:
+    #####:  206:	if (done == 0)
+    #####:  207:		printf("\n\nNo matches found :(\n\n");
+    #####:  208:}
+        -:  209:
+    #####:  210:void QuickSortList(Node* left, Node* right)
+        -:  211:{
+    #####:  212:	if (list->first == NULL)
+    #####:  213:		return;
+        -:  214:
+        -:  215:	Node* start;
+        -:  216:	Node* current;
+        -:  217:	Student* placeholder;
+        -:  218:
+    #####:  219:	if (left == right)
+    #####:  220:		return;
+        -:  221:
+    #####:  222:	start = left;
+    #####:  223:	current = start->next;
+        -:  224:
+        -:  225:	while (1)
+        -:  226:	{
+    #####:  227:		if (start->student->average2 > current->student->average2)
+        -:  228:		{
+    #####:  229:			placeholder = current->student;
+    #####:  230:			current->student = start->student;
+    #####:  231:			start->student = placeholder;
+        -:  232:		}
+        -:  233:
+    #####:  234:		if (current == right)
+    #####:  235:			break;
+        -:  236:
+    #####:  237:		current = current->next;
+        -:  238:	}
+        -:  239:
+    #####:  240:	placeholder = left->student;
+    #####:  241:	left->student = current->student;
+    #####:  242:	current->student = placeholder;
+        -:  243:
+    #####:  244:	Node* oldCurrent = current;
+        -:  245:
+    #####:  246:	current = current->prev;
+        -:  247:
+    #####:  248:	if (current != NULL)
+    #####:  249:		if ((left->prev != current) && (current->next != left))
+    #####:  250:			QuickSortList(left, current);
+        -:  251:
+    #####:  252:	current = oldCurrent;
+    #####:  253:	current = current->next;
+        -:  254:
+    #####:  255:	if (current != NULL)
+    #####:  256:		if ((current->prev != right) && (right->next != current))
+    #####:  257:			QuickSortList(current, right);
+        -:  258:}
+        -:  259:
+    #####:  260:double getAverage(int** marks)
+        -:  261:{
+    #####:  262:	double sum = 0;
+    #####:  263:	int amount = 0;
+    #####:  264:	int i = 0;
+        -:  265:
+    #####:  266:	for (i = 0; ((marks)[i]) != NULL; i++)
+    #####:  267:		amount += 1;
+    #####:  268:	for (i = 0; i < amount; i++)
+    #####:  269:		sum += (*marks)[i];
+        -:  270:
+    #####:  271:	return sum / amount;
+        -:  272:}
+        -:  273:
+    #####:  274:double getAverageDelta(Student* student)
+        -:  275:{
+    #####:  276:	return student->average2 - student->average1;
+        -:  277:}
+        -:  278:
+    #####:  279:int getRatingDelta(Student* student)
+        -:  280:{
+    #####:  281:	return student->ratingPlace1 - student->ratingPlace2;
+        -:  282:}
+        -:  283:
+    #####:  284:void update()
+        -:  285:{
+    #####:  286:	updated = 1;
+    #####:  287:	Node* current = list->first;
+        -:  288:
+    #####:  289:	while (current != NULL)
+        -:  290:	{
+    #####:  291:		current->student->ratingPlace2 = current->number + 1;
+    #####:  292:		current->student->ratingDelta = getRatingDelta(current->student);
+    #####:  293:		current->student->averageDelta = getAverageDelta(current->student);
+    #####:  294:		current = current->next;
+        -:  295:	}
+    #####:  296:}
+        -:  297:
+    #####:  298:Student* readStudent(FILE* file)
+        -:  299:{
+    #####:  300:	Student* newStudent = (Student*)malloc(sizeof(Student));
+        -:  301:
+    #####:  302:	newStudent->surname = readString(file);
+    #####:  303:	newStudent->name = readString(file);
+    #####:  304:	newStudent->lastname = readString(file);
+    #####:  305:	newStudent->course = *(readDigit(file));
+    #####:  306:	newStudent->group = *(readDigit(file));
+    #####:  307:	newStudent->marks1 = readDigit(file);
+    #####:  308:	newStudent->marks2 = readDigit(file);
+        -:  309:	                                         
+    #####:  310:	newStudent->average1 = getAverage(&(newStudent->marks1));
+    #####:  311:	newStudent->average2 = getAverage(&(newStudent->marks2));
+    #####:  312:	newStudent->averageDelta = 0;
+    #####:  313:	newStudent->ratingPlace1 = 0;
+    #####:  314:	newStudent->ratingPlace2 = 0;
+    #####:  315:	newStudent->ratingDelta = 0;
+        -:  316:
+    #####:  317:	return newStudent;
+        -:  318:}
+        -:  319:
+    #####:  320:void pushBack(Student* student)
+        -:  321:{
+    #####:  322:	Node* newNode = (Node*)malloc(sizeof(Node));
+    #####:  323:	newNode->next = NULL;
+    #####:  324:	newNode->student = student;
+    #####:  325:	newNode->number = list->counter;
+    #####:  326:	newNode->student->ratingPlace1 = newNode->number + 1;
+        -:  327:
+    #####:  328:	if (list->first == NULL)
+        -:  329:	{
+    #####:  330:		list->first = newNode;
+    #####:  331:		list->last = newNode;
+        -:  332:	}
+        -:  333:	else
+        -:  334:	{
+    #####:  335:		list->last->next = newNode;
+    #####:  336:		newNode->prev = list->last;
+    #####:  337:		list->last = newNode;
+        -:  338:	}
+        -:  339:
+    #####:  340:	list->counter += 1;
+    #####:  341:}
+        -:  342:
+    #####:  343:char* readString(FILE* file)
+        -:  344:{
+        -:  345:	char s[100];
+    #####:  346:	fscanf(file, "%s", s);
+    #####:  347:	int len = strlen(s);
+        -:  348:
+    #####:  349:	char* output = (char*)malloc(sizeof(char));
+    #####:  350:	if (output == NULL)
+        -:  351:	{
+    #####:  352:		printf("\nNot enough memory");
+    #####:  353:		exit(1);
+        -:  354:	}
+        -:  355:
+    #####:  356:	strcpy(output, s);
+        -:  357:
+    #####:  358:	return output;
+        -:  359:}
+        -:  360:
+    #####:  361:int* readDigit(FILE* file) /*считывание строки с оценками*/
+        -:  362:{
+    #####:  363:	int* vals = (int*)calloc(100, sizeof(int)); /*массив значений*/
+        -:  364:
+    #####:  365:	char s[30] = "";
+    #####:  366:	fscanf(file, "%s", s);
+        -:  367:
+    #####:  368:	int col = 0;
+    #####:  369:	int i = 0;
+    #####:  370:	for (i = 0; s[i] != '\0'; i++)
+        -:  371:	{
+    #####:  372:		if (s[i] == ' ' || s[i] == '\t' || s[i] == ',')
+    #####:  373:			continue;
+        -:  374:
+    #####:  375:		if (s[i] == '-' || (s[i] >= '0' && s[i] <= '9'))
+        -:  376:		{
+    #####:  377:			char* box = (char*)calloc(5, sizeof(char));
+    #####:  378:			int len = 0;
+    #####:  379:			while (s[i] == '-' || (s[i] >= '0' && s[i] <= '9'))
+        -:  380:			{
+    #####:  381:				box[len++] = s[i];
+    #####:  382:				i++;
+        -:  383:			}
+    #####:  384:			vals[col++] = atoi(box);
+        -:  385:		}
+        -:  386:	}
+    #####:  387:	return vals;
+        -:  388:}
+        -:  389:
+    #####:  390:void save()
+        -:  391:{
+        -:  392:	FILE* file;
+    #####:  393:	file = fopen("studentsOutput.txt", "w");
+        -:  394:
+    #####:  395:	Node* current = list->first;
+        -:  396:
+    #####:  397:	while (current != NULL)
+        -:  398:	{
+    #####:  399:		writeStudent(current->student, file);
+    #####:  400:		current = current->next;
+        -:  401:	}
+    #####:  402:	fclose(file);
+    #####:  403:}
+        -:  404:
+    #####:  405:void writeStudent(Student* student, FILE* file)
+        -:  406:{
+    #####:  407:	fprintf(file, "\n%s ", student->surname);
+    #####:  408:	fprintf(file, "%s ", student->name);
+    #####:  409:	fprintf(file, "%s", student->lastname);
+        -:  410:
+    #####:  411:	fprintf(file, "\nCourse: %d", student->course);
+    #####:  412:	fprintf(file, "\nGroup: %d", student->group);
+        -:  413:
+    #####:  414:	fprintf(file, "\nFirst semester marks: ");
+    #####:  415:	int k = 0;
+    #####:  416:	for (k = 0; k < 4; k++)
+    #####:  417:		fprintf(file, "%d ", student->marks1[k]);
+        -:  418:
+    #####:  419:	fprintf(file, "\nRating place in first semester: %d", student->ratingPlace1);
+        -:  420:
+    #####:  421:	fprintf(file, "\nAverage point in first semester: %.2f", student->average1);
+        -:  422:
+    #####:  423:	if (updated == 1)
+        -:  424:	{
+    #####:  425:		fprintf(file, "\nSecond semester marks: ");
+    #####:  426:		for (k = 0; k < 4; k++)
+    #####:  427:			fprintf(file, "%d ", student->marks2[k]);
+        -:  428:
+    #####:  429:		fprintf(file, "\nRating place in second semester: %d", student->ratingPlace2);
+        -:  430:
+    #####:  431:		fprintf(file, "\nRating increase: ");
+    #####:  432:		if (student->ratingDelta > 0)
+    #####:  433:			fprintf(file, "+");
+    #####:  434:		fprintf(file, "%d", student->ratingDelta);
+        -:  435:
+    #####:  436:		fprintf(file, "\nAverage in second semester: %.2f", student->average2);
+        -:  437:
+    #####:  438:		fprintf(file, "\nAverage point increase: ");
+    #####:  439:		if (student->averageDelta > 0)
+    #####:  440:			fprintf(file, "+");
+    #####:  441:		fprintf(file, "%.2f", student->averageDelta);
+        -:  442:	}
+        -:  443:
+    #####:  444:	fprintf(file, "\n\n");
+    #####:  445:}

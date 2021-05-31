@@ -1,0 +1,43 @@
+        -:    0:Source:test.c
+        -:    0:Graph:test.gcno
+        -:    0:Data:-
+        -:    0:Runs:0
+        -:    0:Programs:0
+        -:    1:#include "func.c"
+        -:    2:#include <assert.h>
+        -:    3:#include <stdio.h>
+        -:    4:#include <stdbool.h>
+        -:    5:
+    #####:    6:void TestGetAvarege(){
+    #####:    7:    int* marks = (int*)malloc(sizeof(int));
+    #####:    8:    marks[0] = 9; marks[1] = 8; marks[2] = 7; marks[3] = 6;
+    #####:    9:    assert(getAverage(&marks) == (double)7.5);
+    #####:   10:}
+        -:   11:
+    #####:   12:void TestGetAverageDelta(){
+    #####:   13:    Student* student = (Student*)malloc(sizeof(Student));
+        -:   14:
+    #####:   15:    student->average1 = 6;
+    #####:   16:    student->average2 = 9;
+    #####:   17:    assert(getAverageDelta(student) == 3);
+    #####:   18:}
+        -:   19:
+    #####:   20:void TestGetRatingDelta(){
+    #####:   21:    Student* student = (Student*)malloc(sizeof(Student));
+        -:   22:
+    #####:   23:    student->ratingPlace1 = 6;
+    #####:   24:    student->ratingPlace2 = 9;
+    #####:   25:    assert(getRatingDelta(student) == 3);
+    #####:   26:}
+        -:   27:
+        -:   28:#undef main
+        -:   29:
+    #####:   30:int main(){
+    #####:   31:    TestGetAvarege();
+    #####:   32:    TestGetAverageDelta();
+    #####:   33:    TestGetRatingDelta();
+    #####:   34:    return 0;
+        -:   35:}
+        -:   36:
+        -:   37:
+        -:   38:
